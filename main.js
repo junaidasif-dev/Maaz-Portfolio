@@ -52,7 +52,7 @@ function initHeader() {
       menu.classList.toggle("open");
     });
 
-    menu.querySelectorAll(".nav-link").forEach(link => {
+    menu.querySelectorAll(".nav-link, .mobile-menu-actions a").forEach(link => {
       link.addEventListener("click", () => menu.classList.remove("open"));
     });
   }
