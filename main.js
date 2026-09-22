@@ -1,15 +1,15 @@
 /**
  * ============================================================================
  * MAAZ SAQIB — PORTFOLIO ENGINE (main.js)
- * High-Converting Interactions, 3D Device Tilts, Modals & Lead Gen
+ * Clean Interactions, Subtle 3D Tilt, Proof Lightbox & Lead Generation
  * ============================================================================
  */
 
 // ==========================================
-// 1. CONFIGURATION (Easy Link Updates)
+// 1. CONFIGURATION
 // ==========================================
 const CONFIG = {
-  // Replace this with your actual Google Drive proof vault folder link anytime:
+  // Update this to your actual Google Drive folder link anytime:
   DRIVE_VAULT_URL: "https://drive.google.com/drive/folders/1_MaazSaqib_PortfolioProof_Vault",
   
   // Contact details:
@@ -20,54 +20,19 @@ const CONFIG = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  initCursor();
   initHeader();
   initCounters();
   initProofFilter();
   initProofModal();
   initVaultModal();
+  initCaseStudyModal();
   init3DTilt();
   initCaseStudyTabs();
   initContactForm();
 });
 
 // ==========================================
-// 2. CUSTOM CURSOR (Desktop Only)
-// ==========================================
-function initCursor() {
-  const dot = document.getElementById("cursorDot");
-  const outline = document.getElementById("cursorOutline");
-  if (!dot || !outline) return;
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let outlineX = 0;
-  let outlineY = 0;
-
-  window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-  });
-
-  function animateOutline() {
-    outlineX += (mouseX - outlineX) * 0.15;
-    outlineY += (mouseY - outlineY) * 0.15;
-    outline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
-    requestAnimationFrame(animateOutline);
-  }
-  animateOutline();
-
-  // Hover effect over interactive elements
-  const interactives = document.querySelectorAll("a, button, input, select, textarea, .proof-card, .tool-chip, .case-tab-btn");
-  interactives.forEach(el => {
-    el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
-    el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
-  });
-}
-
-// ==========================================
-// 3. HEADER & MOBILE MENU
+// 2. HEADER & MOBILE NAVIGATION
 // ==========================================
 function initHeader() {
   const header = document.getElementById("siteHeader");
@@ -75,7 +40,7 @@ function initHeader() {
   const menu = document.getElementById("navMenu");
 
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 40) {
+    if (window.scrollY > 30) {
       header.classList.add("scrolled");
     } else {
       header.classList.remove("scrolled");
@@ -87,7 +52,6 @@ function initHeader() {
       menu.classList.toggle("open");
     });
 
-    // Close when clicking nav link
     menu.querySelectorAll(".nav-link").forEach(link => {
       link.addEventListener("click", () => menu.classList.remove("open"));
     });
@@ -95,7 +59,7 @@ function initHeader() {
 }
 
 // ==========================================
-// 4. ANIMATED METRICS COUNTER
+// 3. ANIMATED METRICS COUNTER
 // ==========================================
 function initCounters() {
   const counters = document.querySelectorAll(".ribbon-val[data-target]");
@@ -108,7 +72,7 @@ function initCounters() {
         const target = parseFloat(el.getAttribute("data-target"));
         const suffix = el.textContent.replace(/[\d.]/g, "");
         let current = 0;
-        const step = target / 40;
+        const step = target / 35;
 
         const timer = setInterval(() => {
           current += step;
@@ -128,22 +92,20 @@ function initCounters() {
 }
 
 // ==========================================
-// 5. 3D INTERACTIVE TILT EFFECT
+// 4. SUBTLE 3D CARD TILT
 // ==========================================
 function init3DTilt() {
-  // Hero 3D Card
   const heroCard = document.getElementById("hero3DCard");
   if (heroCard) {
-    applyTilt(heroCard, 14);
+    applySubtleTilt(heroCard, 8);
   }
 
-  // All proof cards
-  const proofWrappers = document.querySelectorAll(".proof-3d-wrapper");
-  proofWrappers.forEach(wrap => {
-    applyTilt(wrap, 10);
+  const proofCards = document.querySelectorAll(".proof-inner");
+  proofCards.forEach(card => {
+    applySubtleTilt(card, 5);
   });
 
-  function applyTilt(element, maxAngle) {
+  function applySubtleTilt(element, maxAngle) {
     element.addEventListener("mousemove", (e) => {
       const rect = element.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -154,17 +116,17 @@ function init3DTilt() {
       const rotateX = ((y - centerY) / centerY) * -maxAngle;
       const rotateY = ((x - centerX) / centerX) * maxAngle;
 
-      element.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(12px)`;
+      element.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(1)}deg) rotateY(${rotateY.toFixed(1)}deg) translateY(-4px)`;
     });
 
     element.addEventListener("mouseleave", () => {
-      element.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
+      element.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)";
     });
   }
 }
 
 // ==========================================
-// 6. PROOF FILTER TABS
+// 5. CAMPAIGN DATA FILTER TABS
 // ==========================================
 function initProofFilter() {
   const tabs = document.querySelectorAll(".filter-btn");
@@ -189,7 +151,7 @@ function initProofFilter() {
 }
 
 // ==========================================
-// 7. PROOF LIGHTBOX MODAL
+// 6. DATA RECORD LIGHTBOX MODAL
 // ==========================================
 function initProofModal() {
   const modal = document.getElementById("proofModal");
@@ -205,8 +167,8 @@ function initProofModal() {
   proofCards.forEach(card => {
     card.addEventListener("click", () => {
       const imgSrc = card.getAttribute("data-modal");
-      const title = card.getAttribute("data-title") || "Verified Analytics";
-      const subtitle = card.getAttribute("data-subtitle") || "Creator Studio Performance Screenshot";
+      const title = card.getAttribute("data-title") || "Campaign Performance Record";
+      const subtitle = card.getAttribute("data-subtitle") || "Verified Analytics & Channel Metrics";
 
       if (modalImg && imgSrc) modalImg.src = imgSrc;
       if (modalTitle) modalTitle.textContent = title;
@@ -242,7 +204,7 @@ function initProofModal() {
 }
 
 // ==========================================
-// 8. DRIVE VAULT POPUP MODAL
+// 7. GOOGLE DRIVE ASSET VAULT MODAL
 // ==========================================
 function openVaultModal() {
   const vaultModal = document.getElementById("vaultModal");
@@ -296,14 +258,13 @@ function initVaultModal() {
     }
   });
 
-  // Copy Vault Link Handlers
   function copyLink(btnElement) {
     navigator.clipboard.writeText(CONFIG.DRIVE_VAULT_URL).then(() => {
       const originalHTML = btnElement.innerHTML;
       btnElement.innerHTML = `<i class="fa-solid fa-check"></i> <span>Copied!</span>`;
       setTimeout(() => {
         btnElement.innerHTML = originalHTML;
-      }, 2200);
+      }, 2000);
     }).catch(err => {
       console.error("Failed to copy URL:", err);
     });
@@ -314,30 +275,76 @@ function initVaultModal() {
 }
 
 // ==========================================
-// 9. CASE STUDY TABS (FACTIFY)
+// 8. CASE STUDY STRATEGIC BREAKDOWN MODAL
+// ==========================================
+function openCaseStudyModal() {
+  const modal = document.getElementById("caseStudyModal");
+  if (!modal) return;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeCaseStudyModal() {
+  const modal = document.getElementById("caseStudyModal");
+  if (!modal) return;
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function initCaseStudyModal() {
+  const openBtn = document.getElementById("openCaseStudyModalBtn");
+  const closeBtn = document.getElementById("caseStudyCloseBtn");
+  const backdrop = document.getElementById("caseStudyBackdrop");
+  const dismissBtn = document.getElementById("csDismissBtn");
+  const contactBtn = document.getElementById("csContactBtn");
+
+  if (openBtn) {
+    openBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openCaseStudyModal();
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", closeCaseStudyModal);
+  if (backdrop) backdrop.addEventListener("click", closeCaseStudyModal);
+  if (dismissBtn) dismissBtn.addEventListener("click", closeCaseStudyModal);
+  if (contactBtn) contactBtn.addEventListener("click", closeCaseStudyModal);
+
+  window.addEventListener("keydown", (e) => {
+    const modal = document.getElementById("caseStudyModal");
+    if (e.key === "Escape" && modal && modal.classList.contains("open")) {
+      closeCaseStudyModal();
+    }
+  });
+}
+
+// ==========================================
+// 8. CASE STUDY TABS (FACTIFY)
 // ==========================================
 function initCaseStudyTabs() {
-  const tabBtns = document.querySelectorAll(".case-tab-btn");
-  const tabContents = document.querySelectorAll(".case-tab-content");
+  const tabBtns = document.querySelectorAll(".case-nav-btn");
+  const tabPanels = document.querySelectorAll(".case-panel");
 
   tabBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       const targetTab = btn.getAttribute("data-tab");
 
       tabBtns.forEach(b => b.classList.remove("active"));
-      tabContents.forEach(c => c.classList.remove("active"));
+      tabPanels.forEach(p => p.classList.remove("active"));
 
       btn.classList.add("active");
-      const targetContent = document.getElementById(`tab-${targetTab}`);
-      if (targetContent) {
-        targetContent.classList.add("active");
+      const targetPanel = document.getElementById(`tab-${targetTab}`);
+      if (targetPanel) {
+        targetPanel.classList.add("active");
       }
     });
   });
 }
 
 // ==========================================
-// 10. INTERACTIVE LEAD GENERATION FORM
+// 9. PROFESSIONAL INQUIRY FORM
 // ==========================================
 function initContactForm() {
   const form = document.getElementById("projectInquiryForm");
@@ -345,7 +352,7 @@ function initContactForm() {
 
   if (!form) return;
 
-  // WhatsApp Submission (Instant)
+  // WhatsApp Submission
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -353,21 +360,21 @@ function initContactForm() {
     const service = document.getElementById("serviceSelect").value;
     const details = document.getElementById("projectDetails").value.trim();
 
-    const message = `👋 Hi Maaz! My name is ${name}.\n\n🎯 *Service Interested:* ${service}\n\n📝 *Project Goals:* ${details || "Let's discuss further on a call/chat."}\n\nLooking forward to hearing from you!`;
+    const message = `👋 Hello Maaz,\n\nMy name is ${name}.\n\n🎯 *Service Requirement:* ${service}\n\n📝 *Project Overview:* ${details || "I would like to discuss our content requirements and next steps."}\n\nLooking forward to speaking with you.`;
 
     const waUrl = `https://wa.me/${CONFIG.PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, "_blank");
   });
 
-  // Direct Email Draft Handler
+  // Direct Email Dispatch
   if (emailBtn) {
     emailBtn.addEventListener("click", () => {
       const name = document.getElementById("clientName").value.trim() || "Prospective Client";
       const service = document.getElementById("serviceSelect").value;
       const details = document.getElementById("projectDetails").value.trim();
 
-      const subject = `Project Inquiry: ${service} (${name})`;
-      const body = `Hi Maaz,\n\nMy name is ${name}.\n\nI am interested in: ${service}\n\nProject details:\n${details || "We'd like to discuss our monthly content/growth needs."}\n\nBest regards,\n${name}`;
+      const subject = `Project Inquiry: ${service} — ${name}`;
+      const body = `Hello Maaz,\n\nMy name is ${name}.\n\nService requirement:\n${service}\n\nProject details:\n${details || "We are interested in discussing our monthly content strategy and production."}\n\nBest regards,\n${name}`;
 
       const mailtoUrl = `mailto:${CONFIG.EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailtoUrl;
