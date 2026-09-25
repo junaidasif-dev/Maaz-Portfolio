@@ -1248,8 +1248,23 @@ body {
 }
 
 .pipeline-connector {
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  border-radius: 50%;
+  color: var(--accent-primary);
+  font-size: 0.88rem;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+.pipeline-connector i {
+  display: inline-block;
+  line-height: 1;
 }
 
 .pipeline-bottom-bar {
@@ -2798,12 +2813,40 @@ body {
   }
 
   .pipeline-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 30px;
+  }
+
+  .pipeline-node {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .pipeline-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    margin: 12px auto;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-medium);
+    border-radius: 50%;
+    color: var(--accent-primary);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    transform: none !important;
+  }
+
+  .pipeline-connector i {
     transform: rotate(90deg);
+    font-size: 0.82rem;
+    display: inline-block;
   }
 
   .timeline-row {
@@ -3146,6 +3189,42 @@ body {
 
   .service-card {
     padding: 20px 16px;
+  }
+
+  .pipeline-card {
+    padding: 24px 14px;
+  }
+
+  .pipeline-heading-block {
+    margin-bottom: 22px;
+  }
+
+  .pipeline-node {
+    padding: 16px 12px;
+  }
+
+  .pipeline-connector {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    margin: 8px auto;
+  }
+
+  .pipeline-connector i {
+    font-size: 0.78rem;
+  }
+
+  .pipeline-bottom-bar {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 16px 12px;
+  }
+
+  .pipeline-bottom-bar a {
+    width: 100%;
+    justify-content: center;
   }
 
   .casestudy-box {
